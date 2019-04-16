@@ -8,7 +8,7 @@ import DealDetail from './DealDetail';
 class App extends React.Component {
   state = {
     deals: [],
-    selectedDeal: null
+    selectedDealId: null
   }
 
   async componentDidMount() {
@@ -17,21 +17,27 @@ class App extends React.Component {
       deals
     }));
   }
-  handlePress(dealId) {
-    this.setState(() => ({
-      selectedDeal: dealId
-    }));
+
+  currentDeal () {
+    return this.state.deals.find( (deal) => {
+      return deal.key === this.state.selectedDealId;
+    });
+  } 
+  
+  setSelectedDeal = (dealId) => {
+    this.setState({
+      selectedDealId: dealId
+    });
   }
 
   render() {
-
     {
-      if (this.state.selectedDeal) {
-        return (<DealDetail dealID={this.state.selectedDeal} />);
+      if (this.state.selectedDealId) {
+        return (<DealDetail initialDealData={this.currentDeal()} />);
       }
 
       if (this.state.deals.length > 0) {
-        return ( <DealList deals={this.state.deals} onItemPress={this.handlePress} /> );
+        return ( <DealList deals={this.state.deals} onItemPress={this.setSelectedDeal} /> );
       }
 
       return (
