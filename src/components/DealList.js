@@ -1,18 +1,28 @@
 import React from 'react';
-import { Text, View, StyleSheet } from 'react-native';
+import { Text, View, StyleSheet, FlatList } from 'react-native';
+import PropTypes from 'prop-types';
+import DealItem from './DealItem';
 
 
-export default class DealList extends React.Component {
+class DealList extends React.Component {
+  static propTypes = {
+    deals: PropTypes.array.isRequired,
+    onItemPress: PropTypes.func.isRequired
+  }
+
   componentDidMount() {
 
   }
 
   render() {
     return (
-      <View>
-        <Text>{this.deals}</Text>
-      </View>
-    )
+      <FlatList
+        data={this.props.deals}
+        renderItem={
+          ( {item} ) => <DealItem deal={item} onItemPress={this.props.onItemPress} />
+        }
+      />
+    );
   }
 }
 
@@ -24,3 +34,5 @@ const styles = StyleSheet.create({
 
   }
 });
+
+export default DealList;

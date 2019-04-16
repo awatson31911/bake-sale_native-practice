@@ -2,29 +2,46 @@ import React from 'react';
 import { Text, View, StyleSheet } from 'react-native';
 
 import ajax from '../ajax';
-import DealList from '../DealList';
+import DealList from './DealList';
+import DealDetail from './DealDetail';
 
 class App extends React.Component {
   state = {
-    deals: []
+    deals: [],
+    selectedDeal: null
   }
 
   async componentDidMount() {
     const deals = await ajax.fetchInitialDeals();
-    this.setState({
+    this.setState(() => ({
       deals
-    });
+    }));
+  }
+  handlePress(dealId) {
+    this.setState(() => ({
+      selectedDeal: dealId
+    }));
   }
 
   render() {
-    return (
-      <View>
-        {this.state.deals.length > 0
-          ? (<DealList deals={this.state.deals} />)
-          : (<Text>{'The Bake Sale'}</Text>)
-        }
-      </View>
-    )
+
+    {
+      if (this.state.selectedDeal) {
+        return (<DealDetail dealID={this.state.selectedDeal} />);
+      }
+
+      if (this.state.deals.length > 0) {
+        return ( <DealList deals={this.state.deals} onItemPress={this.handlePress} /> );
+      }
+
+      return (
+        <View style={styles.container}>
+          <Text>{'The Bake Sale'}</Text>
+        </View>
+      );
+
+    }
+
   }
 }
 
