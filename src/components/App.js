@@ -30,10 +30,16 @@ class App extends React.Component {
     });
   }
 
+  unsetSelectedDeal = () => {
+    this.setState({
+      selectedDealId: null,
+    });
+  };
+
   render() {
     {
       if (this.state.selectedDealId) {
-        return (<DealDetail initialDealData={this.currentDeal()} />);
+        return (<DealDetail initialDealData={this.currentDeal()} onBack={this.unsetSelectedDeal} />);
       }
 
       if (this.state.deals.length > 0) {

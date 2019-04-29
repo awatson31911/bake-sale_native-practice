@@ -13,7 +13,7 @@ export default {
 
   async fetchDealDetail (dealId) {
     try {
-      const response = await fetch(`${apiHost}/api/deals${dealId}`);
+      const response = await fetch(`${apiHost}/api/deals/${dealId}`);
       const responseJson = await response.json();
       return responseJson;
     } catch (error) {
